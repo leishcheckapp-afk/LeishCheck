@@ -77,6 +77,102 @@ async function carregarModeloTFJS() {
     return false;
 }
 
+// ==================== FUNÇÕES DO TERMO ====================
+
+// Habilitar botão quando checkbox for marcado
+document.addEventListener('DOMContentLoaded', function() {
+    const checkbox = document.getElementById('aceitoTermo');
+    const btnAceitar = document.getElementById('btnAceitar');
+    
+    if (checkbox && btnAceitar) {
+        checkbox.addEventListener('change', function() {
+            btnAceitar.disabled = !this.checked;
+            if (this.checked) {
+                btnAceitar.style.backgroundColor = '#00796B';
+            } else {
+                btnAceitar.style.backgroundColor = '#cccccc';
+            }
+        });
+    }
+});
+
+// Função para verificar aceite do termo
+function verificarAceite() {
+    const checkbox = document.getElementById('aceitoTermo');
+    
+    if (!checkbox.checked) {
+        alert("Por favor, marque a opção 'Declaro que li e compreendo' para continuar.");
+        return;
+    }
+    
+    // Registrar aceite no localStorage
+    const dadosAceite = {
+        aceito: true,
+        data: new Date().toISOString(),
+        versao: '1.0'
+    };
+    
+    localStorage.setItem('termoLeishCheck', JSON.stringify(dadosAceite));
+    
+    console.log('✅ Termo aceito pelo usuário');
+    
+    // Continuar para próxima página
+    nextPage();
+}
+
+// Função para recusar o termo
+function recusarTermo() {
+    if (confirm("Para utilizar o LeishCheck é necessário aceitar o termo de consentimento. Deseja realmente sair?")) {
+        // Mostrar mensagem de saída
+        document.getElementById('tcle').innerHTML = `
+            <div class="recusa-termo">
+                <h3>Termo Não Aceito</h3>
+                <div class="icone-recusa">❌</div>
+                <p>O uso do LeishCheck requer a aceitação do termo de consentimento.</p>
+                <p>Se mudar de ideia, você pode recarregar a página.</p>
+                <button onclick="location.reload()" class="btn-recarregar">
+                    Recarregar e Reconsiderar
+                </button>
+            </div>
+        `;
+        
+        // Registrar recusa
+        localStorage.setItem('termoLeishCheck', JSON.stringify({
+            aceito: false,
+            data: new Date().toISOString()
+        }));
+    }
+}
+
+// Verificar se já aceitou o termo anteriormente (opcional)
+function verificarTermoAnterior() {
+    const termoSalvo = localStorage.getItem('termoLeishCheck');
+    
+    if (termoSalvo) {
+        const dados = JSON.parse(termoSalvo);
+        if (dados.aceito && dados.data) {
+            // Pode mostrar mensagem ou pular termo
+            console.log('Usuário já aceitou termo em:', dados.data);
+            
+            // Opcional: mostrar que já aceitou antes
+            const checkbox = document.getElementById('aceitoTermo');
+            const btnAceitar = document.getElementById('btnAceitar');
+            
+            if (checkbox && btnAceitar) {
+                checkbox.checked = true;
+                btnAceitar.disabled = false;
+                btnAceitar.style.backgroundColor = '#00796B';
+            }
+        }
+    }
+}
+
+// Adicionar esta chamada na inicialização
+document.addEventListener('DOMContentLoaded', function() {
+    verificarTermoAnterior(); // Verificar termo anterior
+    // ... resto do seu código de inicialização
+});
+
 // Função para criar um modelo placeholder para desenvolvimento
 function criarModeloPlaceholder() {
     console.warn('⚠️ Criando modelo placeholder para desenvolvimento...');
