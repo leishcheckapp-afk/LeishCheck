@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>LeishCheck</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="container" id="app">
+
+<div id="tcle">
+<h2>Termo de Consentimento Livre e Esclarecido</h2>
+<p>Bem-vindo(a) ao <strong>LeishCheck</strong>! Este projeto visa auxiliar na triagem da leishmaniose cutânea.</p>
+<p>Ao continuar, você concorda voluntariamente com a coleta e o uso de informações pessoais para fins educacionais e de triagem.
+<strong>Não substitui consulta médica presencial.</strong></p>
+<button onclick="nextPage()">Aceitar e Continuar</button>
+</div>
+
+<div id="resumo" class="hidden">
+<h2>Sobre a Leishmaniose</h2>
+<p>A leishmaniose cutânea é causada por protozoários transmitidos pela picada do <strong>mosquito-palha</strong>.</p>
+<a href="https://portal.fiocruz.br/noticia/leishmanioses-conheca-os-insetos-transmissores-e-saiba-como-se-prevenir" target="_blank">
+Clique aqui para conhecer o vetor transmissor</a>
+<button onclick="nextPage()">Continuar</button>
+</div>
+
+<div id="dados" class="hidden">
+<h2>Informações Iniciais</h2>
+<label>Idade:</label>
+<input type="number" id="idade">
+<label>Sexo:</label>
+<select id="sexo">
+<option value="">Selecione</option>
+<option value="Masculino">Masculino</option>
+<option value="Feminino">Feminino</option>
+</select>
+<label>Cidade:</label>
+<input type="text" id="cidade">
+<label>Estado:</label>
+<input type="text" id="estado">
+<button onclick="nextPage()">Próximo</button>
+</div>
+
+<div id="questionario" class="hidden"></div>
+
+<div id="foto" class="hidden">
+<h2>Envie uma Foto</h2>
+<p>Envie uma imagem clara da lesão para auxiliar na triagem:</p>
+<input type="file" accept="image/*" id="imagem">
+<button onclick="calcularRisco()">Enviar e Avaliar</button>
+</div>
+
+<div id="resultado" class="hidden">
+<h2>Resultado</h2>
+<div class="chart-container">
+<canvas id="graficoPizza"></canvas>
+</div>
+<div id="orientacoes"></div>
+<p><strong>Atenção:</strong> este app não substitui avaliação médica presencial.</p>
+
+<button onclick="mostrarEducacao()">Mais sobre a doença</button>
+
+<a href="https://www.google.com/maps/search/ubs+mais+próxima/" target="_blank">
+<button class="btn-yellow">UBS mais próxima</button>
+</a>
+</div>
+
+<div id="educacao" class="hidden">
+<h2>Educação em Saúde</h2>
+<p><strong>Transmissão:</strong> Ocorre pela picada do mosquito-palha infectado.</p>
+<p><strong>Prevenção:</strong> Use roupas compridas, repelente e evite áreas de mata.</p>
+<p><strong>Sintomas:</strong> Ferida que não cicatriza.</p>
+<p>Em caso de suspeita, procure uma UBS.</p>
+<button onclick="nextPage()">Finalizar</button>
+</div>
+
+<div id="final" class="hidden">
+<h2>Obrigado!</h2>
+<p>Você finalizou o LeishCheck. Continue se cuidando.</p>
+</div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="script.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.22.0/dist/tf.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="script.js"></script>
+
+</body>
+</html>
