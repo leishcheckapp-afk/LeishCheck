@@ -10,11 +10,76 @@
 <div class="container" id="app">
 
 <div id="tcle">
-<h2>Termo de Consentimento Livre e Esclarecido</h2>
-<p>Bem-vindo(a) ao <strong>LeishCheck</strong>! Este projeto visa auxiliar na triagem da leishmaniose cutânea.</p>
-<p>Ao continuar, você concorda voluntariamente com a coleta e o uso de informações pessoais para fins educacionais e de triagem.
-<strong>Não substitui consulta médica presencial.</strong></p>
-<button onclick="nextPage()">Aceitar e Continuar</button>
+    <h2>Termo de Consentimento Livre e Esclarecido</h2>
+    
+    <div class="termo-conteudo">
+        <!-- Cabeçalho do termo -->
+        <div class="cabecalho-termo">
+            <h3>Bem-vindo(a) ao LeishCheck!</h3>
+            <div class="projeto-lista">
+                <div class="item-lista">Este projeto visa:</div>
+                <div class="item-lista">Auxiliar na</div>
+                <div class="item-lista">Triagem de</div>
+                <div class="item-lista">Leishmaniose cutânea</div>
+            </div>
+        </div>
+        
+        <!-- Texto principal do termo -->
+        <div class="texto-termo">
+            <p>Ao continuar, você concorda voluntariamente com a coleta e o uso de algumas informações pessoais para fins de análise de risco de leishmaniose cutânea.</p>
+            
+            <p><strong>Os dados utilizados incluem:</strong></p>
+            <ul>
+                <li>Idade</li>
+                <li>Gênero</li>
+                <li>Cidade e Estado</li>
+                <li>Imagens da lesão (se fornecidas)</li>
+                <li>Respostas ao questionário</li>
+            </ul>
+            
+            <p><strong>Finalidade:</strong></p>
+            <p>Essas informações serão utilizadas <strong>exclusivamente</strong> para fins educacionais, de triagem e promoção à saúde, sem caráter diagnóstico definitivo, e não serão compartilhadas com terceiros.</p>
+            
+            <p><strong>Privacidade e Segurança:</strong></p>
+            <p>O uso do aplicativo é anônimo e os dados são armazenados de forma segura, respeitando a <strong>Lei Geral de Proteção de Dados (LGPD - Lei 13.709/2018)</strong>.</p>
+            
+            <p><strong>Seus Direitos:</strong></p>
+            <ul>
+                <li>Você pode interromper o uso do app a qualquer momento</li>
+                <li>Nenhuma informação será usada para outros fins sem seu consentimento prévio</li>
+                <li>Você pode sair a qualquer momento, sem prejuízos</li>
+            </ul>
+            
+            <p><strong>Declaração de Consentimento:</strong></p>
+            <p>Ao clicar em "Aceitar e Continuar", você declara estar ciente e de acordo com o uso dos dados mencionados nos termos acima.</p>
+            
+            <div class="aviso-importante">
+                <p>⚠️ <strong>Importante:</strong> Esta ferramenta não substitui uma consulta médica presencial.</p>
+                <p>Em caso de suspeita, procure atendimento em uma Unidade Básica de Saúde.</p>
+            </div>
+        </div>
+        
+        <!-- Checkbox de aceitação -->
+        <div class="aceite-termo">
+            <label class="checkbox-container">
+                <input type="checkbox" id="aceitoTermo">
+                <span class="checkmark"></span>
+                <span class="texto-aceite">
+                    <strong>Li, compreendi e concordo com os termos acima.</strong>
+                </span>
+            </label>
+        </div>
+        
+        <!-- Botões de ação -->
+        <div class="botoes-termo">
+            <button onclick="recusarTermo()" class="btn-recusar">
+                Não Aceito / Sair
+            </button>
+            <button onclick="verificarAceite()" id="btnAceitar" disabled>
+                Aceitar e Continuar
+            </button>
+        </div>
+    </div>
 </div>
 
 <div id="resumo" class="hidden">
