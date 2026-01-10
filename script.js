@@ -461,6 +461,72 @@ function criarResultadoSimulado() {
     };
 }
 
+// ==================== FUNÇÕES FIREBASE ====================
+
+// Gerar ID único
+function gerarIDUnico() {
+    return 'LC_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+}
+
+// Salvar dados no Firebase
+async function salvarNoFirebase(resultado) {
+    console.log("💾 Salvando no Firestore...");
+    
+    try {
+        // Verificar se Firebase está disponível
+        if (!window.db) {
+            console.warn("⚠️ Firebase não disponível");
+            return null;
+        }
+        
+        // Coletar dados do usuário
+        const dadosUsuario = {
+            // Informações pessoais
+            idade: document.getElementById('idade')?.value || 'Não informado',
+            sexo: document.getElementById('sexo')?.value || 'Não informado',
+            cidade: document.getElementById('cidade')?.value || 'Não informado',
+            estado: document.getElementById('estado')?.value || 'Não informado',
+            
+            // Respostas do questionário
+            respostas: [...respostas],
+            totalSim: respostas.reduce((s, r) => s + (r || 0), 0),
+            totalPerguntas: perguntas.length,
+            percentualQuestionario: Math.round((respostas.reduce((s, r) => s + (r || 0), 0) / perguntas.length) * 100),
+            
+            // Resultados
+            resultado: {
+                percentual: resultado.percentual,
+                nivelRisco: resultado.percentual >= 70 ? 'ALTO' : 
+                           resultado.percentual >= 40 ? 'MÉDIO' : 'BAIXO',
+                origem: resultado.origem || 'questionario',
+                usandoIA: resultado.usandoIA || false,
+                detalhes: resultado.detalhes || {}
+            },
+            
+            // Metadados
+            timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+            sessionId: gerarIDUnico(),
+            userAgent: navigator.userAgent.substring(0, 100),
+            origem: window.location.href || 'Netlify',
+            versao: '1.0'
+        };
+        
+        // Gerar ID único para o documento
+        const docId = dadosUsuario.sessionId;
+        
+        // ✅ Salvar APENAS no Firestore (SEM Storage)
+        await db.collection('usuarios').doc(docId).set(dadosUsuario);
+        
+        console.log("✅ Dados salvos no Firestore! ID:", docId);
+        return docId;
+        
+    } catch (error) {
+        console.error("❌ Erro ao salvar no Firebase:", error);
+        return null;
+    }
+}
+
+
 // ==================== CÁLCULO DE RISCO ====================
 async function calcularRisco() {
     console.log('📈 Calculando risco...');
@@ -540,6 +606,11 @@ async function calcularRisco() {
     // Calcular resultado combinado
     const resultadoCombinado = calcularResultadoCombinado(percentualQuestionario, resultadoIA);
     
+    // Salvar automaticamente no Firebase
+    salvarNoFirebase(resultadoCombinado).then(docId => {
+        if (docId) console.log("✅ Salvamento concluído:", docId);
+    });
+
     // Restaurar botão
     botao.innerHTML = textoOriginal;
     botao.disabled = false;
