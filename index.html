@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>LeishCheck</title>
-<link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>LeishCheck</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <div class="container" id="app">
@@ -23,6 +23,54 @@
                 <div class="item-lista">Leishmaniose cutânea</div>
             </div>
         </div>
+
+   <!-- REMOVA o firebase-config.js -->
+<!-- ADICIONE ESTAS LINHAS -->
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+<!-- <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script> -->
+
+<script>
+  // CONFIGURAÇÃO DO FIREBASE - Versão COMPATÍVEL (v8)
+  const firebaseConfig = {
+    apiKey: "AIzaSyCTREufIU4eniPzZoUpaIl0ka--dHZPdmE",
+    authDomain: "leishcheck-c927c.firebaseapp.com",
+    projectId: "leishcheck-c927c",
+    storageBucket: "leishcheck-c927c.firebasestorage.app",
+    messagingSenderId: "86022380552",
+    appId: "1:86022380552:web:5ab8ec1696ff7fb78d45bd"
+  };
+
+  // Inicializar Firebase APENAS se não estiver inicializado
+  if (!firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
+  }
+  
+  // Tornar globalmente acessível
+  window.db = firebase.firestore();
+ // window.storage = firebase.storage();  //Desativando o storeger pois o firebase não esta deixando criar o banco de dados
+  
+  console.log("✅ Firebase v8 inicializado com sucesso!");
+  
+  // Teste de conexão
+  setTimeout(async () => {
+    try {
+      console.log("🧪 Testando conexão com Firestore...");
+      await db.collection("teste_conexao").add({
+        mensagem: "Firebase conectado",
+        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+        origem: "LeishCheck Netlify"
+      });
+      console.log("🎉 Teste de conexão bem-sucedido!");
+    } catch (error) {
+      console.error("❌ Erro na conexão:", error);
+    }
+  }, 1000);
+</script>
+
+<!-- Outras bibliotecas -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.22.0/dist/tf.min.js"></script>     
         
         <!-- Texto principal do termo -->
         <div class="texto-termo">
